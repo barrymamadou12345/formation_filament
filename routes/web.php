@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::redirect('/', '/admin/login');
+
+Route::get('/test-email', function(){
+  $user = [
+    'nom' => 'Barry',
+    'prenom' => 'Mamadou',
+    'email' => 'mamadou54321barry@gmail.com'
+  ];
+
+  Mail::raw('Ceci est un test pour vérifier la configuration des e-mails, La methode avec un tableau!',
+  function($message) use ($user){
+    $message->to($user['email'])
+            ->subject('Test de configuration Email');
+  });
+
+  return "L'email a été envoyé avec Succès !";
+});
 
 // Route::get('/', function () {
 //     return view('welcome');
