@@ -4,10 +4,12 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\Widgets\UserWidgets;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,6 +37,17 @@ class UserResource extends Resource
             TextInput::make('prenom')->label("Prénom")->placeholder("Prénom de l'utilisateur")->required(),
             TextInput::make('email')->label("Email")->placeholder("Email de l'utilisateur")->required()->email()->unique(),
             TextInput::make('telephone')->label("Téléphone")->placeholder("Téléphone de l'utilisateur")->required(),
+            Select::make('statut')->label("Statut")
+              ->placeholder("Sélectionner le statut de l'utilisateur")
+              ->options([
+                'admin' => 'Administrateur',
+                'directeur' => 'Directeur',
+                'professeur' => 'Professeur',
+                'secretaire' => 'Secrétaire',
+                'etudiant' => 'Etudiant',
+                'parent' => 'Parent',
+              ])
+              ->native(false)->required(),
             FileUpload::make('profil')->label("Photo de profil")->imagePreviewHeight('250px')->imageEditor()->circleCropper(),
           ])->columns(3),
       ]);
@@ -69,6 +82,14 @@ class UserResource extends Resource
   {
     return [
       //
+    ];
+  }
+
+  // Gestion des Widgets
+  public static function getWidgets(): array
+  {
+    return [
+      UserWidgets::class,
     ];
   }
 

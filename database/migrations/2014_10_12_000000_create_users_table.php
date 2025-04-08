@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('prenom');
+            $table->enum('statut', ['admin', 'directeur', 'professeur', 'secretaire', 'etudiant', 'parent'])->default('admin');
             $table->string('profil')->nullable();
             $table->string('telephone')->nullable();
             $table->string('email')->unique();
